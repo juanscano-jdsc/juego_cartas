@@ -1,5 +1,4 @@
 import java.awt.Color;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -8,13 +7,18 @@ import javax.swing.JTabbedPane;
 
 public class FrmJuego extends JFrame {
 
-    // variables globales
-    private JPanel pnlJugador1, pnlJugador2;
+    // Variables globales / Atributos
     private JTabbedPane tpJugadores;
+    private JPanel pnlJugador1;
+    private JPanel pnlJugador2;
 
+    private Jugador jugador1 = new Jugador();
+    private Jugador jugador2 = new Jugador();
+
+    // Constructor de la clase
     public FrmJuego() {
-        setSize(500, 300);
         setTitle("Juego de Cartas");
+        setSize(510, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(null);
 
@@ -27,7 +31,6 @@ public class FrmJuego extends JFrame {
         add(btnVerificar);
 
         // Definir una interfaz con varios paneles agrupados mediante pestañas
-
         tpJugadores = new JTabbedPane();
         tpJugadores.setBounds(10, 45, 470, 200);
         add(tpJugadores);
@@ -42,8 +45,7 @@ public class FrmJuego extends JFrame {
         pnlJugador2.setBackground(new Color(0, 255, 255));
         pnlJugador2.setLayout(null);
 
-        // eventos
-
+        // Eventos
         btnRepartir.addActionListener(evento -> {
             repartir();
         });
@@ -53,9 +55,6 @@ public class FrmJuego extends JFrame {
         });
     }
 
-    Jugador jugador1 = new Jugador();
-    Jugador jugador2 = new Jugador();
-
     private void repartir() {
         jugador1.repartir();
         jugador2.repartir();
@@ -63,19 +62,18 @@ public class FrmJuego extends JFrame {
         jugador2.mostrar(pnlJugador2);
     }
 
-    private void verificar(){
-        String gruposEncontrados="";
+    private void verificar() {
+        String gruposEncontrados = "";
         switch (tpJugadores.getSelectedIndex()) {
             case 0:
-                gruposEncontrados=jugador1.getGrupos();
+                gruposEncontrados = jugador1.getGrupos();
                 break;
             case 1:
-                gruposEncontrados=jugador2.getGrupos();
+                gruposEncontrados = jugador2.getGrupos();
                 break;
         }
-        if(gruposEncontrados!=""){
+        if (!gruposEncontrados.isEmpty()) {
             JOptionPane.showMessageDialog(null, gruposEncontrados);
         }
     }
-
 }
