@@ -9,7 +9,7 @@ public class Jugador {
     private final int DISTANCIA = 40;
 
     private Random r = new Random();
-    private Carta[] cartas = new Carta[TOTAL_CARTAS];
+    private Carta[] cartas = new Carta[TOTAL_CARTAS]; //la mano del jugador
 
     public void repartir() {
         for (int i = 0; i < TOTAL_CARTAS; i++) {
@@ -51,11 +51,84 @@ public class Jugador {
                 if (contadores[i] >= 2) {
                     //respuesta += Grupo.values()[contador] + " de "+ NombreCarta.values()[] + "\n";
                     respuesta += Grupo.values()[contadores[i]] + " de "+ NombreCarta.values()[i] + "\n";
-                }
+                }   
             }
         }
-
+    
         return respuesta;
     }
 
+    public String getEscaleras() {
+        String respuesta = "No se encontraron escaleras";
+        boolean hayEscalera = false;
+        String detallesEscalera = "";
+        Pinta[] pintas = Pinta.values();
+
+    // 1. Recorrer cada pinta individualmente
+        for (int p = 0; p < pintas.length; p++) {
+            Pinta pintaActual = pintas[p]; //trebol
+
+        // Guardar los valores de las cartas de la pinta actual
+            int[] valores = new int[TOTAL_CARTAS];//arreglo de 10 posiciones
+            int cantidadCartas = 0;
+
+            for (int i = 0; i < TOTAL_CARTAS; i++) {
+                if (cartas[i].getPinta() == pintaActual) // Revisa la mano carta por carta cual es la pinta
+                {
+                    valores[cantidadCartas] = cartas[i].getNombre().ordinal() + 1;
+                    cantidadCartas++;
+                }
+            }
+
+        // Si hay al menos 2 cartas de la misma pinta, evaluamos
+            if (cantidadCartas >= 2) {
+            // 2. Ordenar los valores (Método Burbuja)
+                for (int i = 0; i < cantidadCartas - 1; i++) {
+                    for (int j = 0; j < cantidadCartas - i - 1; j++) {
+                        if (valores[j] > valores[j + 1]) {
+                            int aux = valores[j];
+                            valores[j] = valores[j + 1];
+                            valores[j + 1] = aux;
+                        }
+                    }
+                }
+            }
+            // 3. Buscar secuencias consecutivas (evitando duplicados consecutivos)
+            int inicio = 0;
+            int contadorConsecutivas = 1;
+
+            for (int i = 0; i < cantidadCartas - 1; i++) {
+                if (valores[i + 1] == valores[i] + 1) {
+                    contadorConsecutivas++;
+                } 
+                else if (valores[i + 1] != valores[i]) { // Si son números no consecutivos
+                    if (contadorConsecutivas >= 2) {
+                            hayEscalera = true;
+                            detallesEscalera += "Escalera de " + pintaActual + ": desde " + 
+                                            NombreCarta.values()[valores[inicio] - 1] + 
+                                            " hasta " + NombreCarta.values()[valores[i] - 1] + "\n";
+                    }
+                    contadorConsecutivas = 1;
+                    inicio = i + 1;
+                }
+            }
+
+            // Validar la última secuencia al finalizar el bucle
+            if (contadorConsecutivas >= 2) {
+                hayEscalera = true;
+                detallesEscalera += "Escalera de " + pintaActual + ": desde " + 
+                                    NombreCarta.values()[valores[inicio] - 1] + 
+                                    " hasta " + NombreCarta.values()[valores[cantidadCartas - 1] - 1] + "\n";
+            }
+        }
+    
+    if (hayEscalera) {
+        respuesta = "Se encontraron las siguientes escaleras:\n" + detallesEscalera;
+    }
+
+    return respuesta;
 }
+}
+
+
+

@@ -63,17 +63,21 @@ public class FrmJuego extends JFrame {
     }
 
     private void verificar() {
-        String gruposEncontrados = "";
-        switch (tpJugadores.getSelectedIndex()) {
-            case 0:
-                gruposEncontrados = jugador1.getGrupos();
-                break;
-            case 1:
-                gruposEncontrados = jugador2.getGrupos();
-                break;
-        }
-        if (!gruposEncontrados.isEmpty()) {
-            JOptionPane.showMessageDialog(null, gruposEncontrados);
-        }
+    String gruposEncontrados = "";
+    String escalerasEncontradas = "";
+
+    switch (tpJugadores.getSelectedIndex()) {
+        case 0:
+            gruposEncontrados = jugador1.getGrupos();
+            escalerasEncontradas = jugador1.getEscaleras();
+            break;
+        case 1:
+            gruposEncontrados = jugador2.getGrupos();
+            escalerasEncontradas = jugador2.getEscaleras();
+            break;
+    }
+
+    String mensajeFinal = gruposEncontrados + "\n\n" + escalerasEncontradas;
+    JOptionPane.showMessageDialog(null, mensajeFinal);
     }
 }
