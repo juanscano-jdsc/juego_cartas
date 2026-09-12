@@ -64,7 +64,7 @@ public class Jugador {
         String detallesEscalera = "";
         Pinta[] pintas = Pinta.values();
 
-    // 1. Recorrer cada pinta individualmente
+    // Recorrer cada pinta individualmente
         for (int p = 0; p < pintas.length; p++) {
             Pinta pintaActual = pintas[p]; //trebol
 
@@ -73,7 +73,7 @@ public class Jugador {
             int cantidadCartas = 0;
 
             for (int i = 0; i < TOTAL_CARTAS; i++) {
-                if (cartas[i].getPinta() == pintaActual) // Revisa la mano carta por carta cual es la pinta
+                if (cartas[i].getPinta() == pintaActual) // Revisar la mano carta por carta cual es la pinta
                 {
                     valores[cantidadCartas] = cartas[i].getNombre().ordinal() + 1;
                     cantidadCartas++;
@@ -82,7 +82,7 @@ public class Jugador {
 
         // Si hay al menos 2 cartas de la misma pinta, evaluamos
             if (cantidadCartas >= 2) {
-            // 2. Ordenar los valores (Método Burbuja)
+            // Ordenamos usando el metodo burbuja que nos enseñaron en logica 1
                 for (int i = 0; i < cantidadCartas - 1; i++) {
                     for (int j = 0; j < cantidadCartas - i - 1; j++) {
                         if (valores[j] > valores[j + 1]) {
@@ -93,7 +93,7 @@ public class Jugador {
                     }
                 }
             }
-            // 3. Buscar secuencias consecutivas (evitando duplicados consecutivos)
+            //Buscar secuencias consecutivas 
             int inicio = 0;
             int contadorConsecutivas = 1;
 
@@ -101,7 +101,7 @@ public class Jugador {
                 if (valores[i + 1] == valores[i] + 1) {
                     contadorConsecutivas++;
                 } 
-                else if (valores[i + 1] != valores[i]) { // Si son números no consecutivos
+                else if (valores[i + 1] != valores[i]) { // Si son números no consecutivos se corta la secuencia
                     if (contadorConsecutivas >= 2) {
                             hayEscalera = true;
                             detallesEscalera += "Escalera de " + pintaActual + ": desde " + 
